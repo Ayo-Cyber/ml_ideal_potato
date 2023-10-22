@@ -24,7 +24,7 @@ class DataTransformation:
         try:
             num_columns = ['writing_score', 'reading_score']
             cat_columns = ['gender',
-                           'race_ethinicity',
+                           'race_ethnicity',
                            'parental_level_of_education',
                            'lunch',
                            'test_preparation_course']
@@ -41,7 +41,7 @@ class DataTransformation:
                 steps=[
                     ("Imputer", SimpleImputer(strategy='most_frequent')),
                     ("OHE", OneHotEncoder()),
-                    ("Scaler", StandardScaler())
+                    ("Scaler", StandardScaler(with_mean=False))
                 ]
             )
 
@@ -82,7 +82,7 @@ class DataTransformation:
            logging.info("Applying Data Transformation On Data")
 
            input_train_feature_parameter = preprocessing_obj.fit_transform(input_feature_train_df)
-           input_test_feature_parameter = preprocessing_obj.tranform(input_feature_test_df)
+           input_test_feature_parameter = preprocessing_obj.transform(input_feature_test_df)
 
            train_arr = np.c_[input_train_feature_parameter, np.array(target_feature_train_df)]
            test_arr = np.c_[input_test_feature_parameter, np.array(target_feature_test_df)]
@@ -101,10 +101,5 @@ class DataTransformation:
                self.data_transformation.preprocess_obj_file
            )
 
-
-
         except Exception as e:
             raise CustomException(e, sys)
-
-
-
